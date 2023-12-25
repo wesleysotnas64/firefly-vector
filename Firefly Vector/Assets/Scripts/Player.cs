@@ -27,8 +27,14 @@ public class Player : MonoBehaviour
         transform.Translate(0, speed * Time.deltaTime, 0);
     }
 
-    public void SetDirection(Vector2 newDirection)
+    private void SetDirection(Vector2 newDirection)
     {
         transform.up = newDirection;
+    }
+
+    public void Initiate(Vector2 initialPosition, Vector2 direction)
+    {
+        SetDirection(direction);
+        ableToMove = true;
     }
 }
