@@ -37,4 +37,25 @@ public class Player : MonoBehaviour
         SetDirection(direction);
         ableToMove = true;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        string tag = collision.gameObject.tag;
+
+        if (tag == "Obstacle")
+        {
+            Vector2 newDirection = ReflecVector(transform.up, collision.gameObject.transform.up);
+            SetDirection(newDirection);
+        }
+    }
+
+    private Vector2 ReflecVector(Vector2 input, Vector2 normal)
+    {
+        input.Normalize();
+        normal.Normalize();
+
+        Vector2 reflection = input - 2 * Vector2.Dot(input, normal) * normal;
+
+        return reflection;
+    }
 }
