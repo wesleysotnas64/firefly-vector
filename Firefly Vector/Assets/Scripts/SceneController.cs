@@ -10,10 +10,14 @@ public class SceneController : MonoBehaviour
     public Vector2 initialPosition;
     public Vector2 finalPosition;
     public bool ableToSetDirection;
+    public bool btnMouseDownIsPressed;
+
+    public int obstacleListCount;
 
     void Start()
     {
         ableToSetDirection = true;
+        btnMouseDownIsPressed = false;
     }
 
     void Update()
@@ -22,23 +26,33 @@ public class SceneController : MonoBehaviour
         {
             SetDirectionVector();
         }
+
+        if (btnMouseDownIsPressed)
+        {
+            CalcVectorInit();
+        }
     }
 
     public void SetDirectionVector()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            btnMouseDownIsPressed = true;
             initialPosition = GetMousePosition();
             playerInScene = Instantiate(playerGameObject);
             playerInScene.transform.position = initialPosition;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            finalPosition = GetMousePosition();
-
-            direction = (finalPosition - initialPosition).normalized;
+            btnMouseDownIsPressed = false;
+            CalcVectorInit();
             playerInScene.GetComponent<Player>().Initiate(initialPosition, direction);
         }
+    }
+
+    private void CalcVectorInit(){
+        finalPosition = GetMousePosition();
+        direction = (finalPosition - initialPosition).normalized;
     }
 
     public Vector2 GetMousePosition()

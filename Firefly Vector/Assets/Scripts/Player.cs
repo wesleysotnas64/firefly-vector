@@ -42,11 +42,21 @@ public class Player : MonoBehaviour
     {
         string tag = collision.gameObject.tag;
 
+        Vector2 newDirection = Vector2.zero;
+
         if (tag == "Obstacle")
         {
-            Vector2 newDirection = ReflecVector(transform.up, collision.gameObject.transform.up);
-            SetDirection(newDirection);
+            newDirection = ReflecVector(transform.up, collision.gameObject.transform.up);
+            Destroy(collision.gameObject);
         }
+        else if (tag == "CircleObstacle")
+        {
+            newDirection = ReflecVector(transform.up, (Vector2) (collision.gameObject.transform.position - transform.position).normalized);
+            Destroy(collision.gameObject);
+        }
+
+        SetDirection(newDirection);
+        
     }
 
     private Vector2 ReflecVector(Vector2 input, Vector2 normal)
