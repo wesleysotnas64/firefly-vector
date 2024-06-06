@@ -11,6 +11,8 @@ public class SceneController : MonoBehaviour
     public Vector2 finalPosition;
     public bool ableToSetDirection;
     public bool btnMouseDownIsPressed;
+    public GameObject lineGameObject;
+    public GameObject lineInScene;
 
     public int obstacleListCount;
 
@@ -30,6 +32,7 @@ public class SceneController : MonoBehaviour
         if (btnMouseDownIsPressed)
         {
             CalcVectorInit();
+            lineInScene.GetComponent<Line>().B.position = GetMousePosition();
         }
     }
 
@@ -41,12 +44,17 @@ public class SceneController : MonoBehaviour
             initialPosition = GetMousePosition();
             playerInScene = Instantiate(playerGameObject);
             playerInScene.transform.position = initialPosition;
+
+            lineInScene = Instantiate(lineGameObject);
+            lineInScene.GetComponent<Line>().A.position = initialPosition;
         }
         if (Input.GetMouseButtonUp(0))
         {
             btnMouseDownIsPressed = false;
             CalcVectorInit();
             playerInScene.GetComponent<Player>().Initiate(initialPosition, direction);
+
+            Destroy(lineInScene.gameObject);
         }
     }
 
